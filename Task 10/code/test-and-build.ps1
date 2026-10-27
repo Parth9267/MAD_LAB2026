@@ -1,4 +1,4 @@
-# Run from the original Campus Connect Flutter project, after restoring its source.
+# Run from the Task 10 folder after generating platform scaffolds and configuring Firebase.
 # These commands document the workflow; they have not been run by this script author.
 flutter devices
 flutter analyze

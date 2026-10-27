@@ -12,3 +12,9 @@ Checked on 27 October 2026 using the local Flutter/Dart installation.
 - Task 9 now includes the Campus Connect source from the supplied ZIP. Its Firebase rules JSON parses. A missing closing parenthesis was repaired, and the deprecated dropdown `value` parameter was updated to `initialValue` for the installed Flutter SDK. Dependencies resolved, static analysis passed and the included setup-screen widget test passed. A lockfile records the resolved packages.
 
 No live Firebase app run, Android build, signing operation, Firebase deployment or cloud database mutation was performed during this organization. The Task 9 widget test exercises its unconfigured setup screen locally. Screenshots and historical results in the PDFs belong to the original experiments.
+
+## Consistent source layout
+
+Tasks 2-10 each contain lib/main.dart and pubspec.yaml directly in the task folder. Task 9 source was moved out of the nested campus_connect folder. Task 10 uses the same supplied Campus Connect source and setup-screen test for the testing/deployment experiment. Its Firebase options remain unconfigured.
+
+Dependencies resolved, static analysis found no issues, and the setup-screen widget test passed from both Task 9 and Task 10 after the layout change. All task README source links resolve to existing files.

@@ -4,6 +4,12 @@
 - [Output images](output/)
 - [Extracted report text](report.txt)
 
+## Dart source
+
+- [Main app: lib/main.dart](lib/main.dart)
+- [home_screen.dart](lib/home_screen.dart)
+- [second_screen.dart](lib/second_screen.dart)
+
 ## Code and running
 
 `lib/` contains the Dart source. `pubspec.yaml` contains package metadata and dependencies. Platform scaffold folders were not supplied in the PDFs. From this folder run:
