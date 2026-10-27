@@ -1,0 +1,492 @@
+                    EXPERIMENT 4
+
+AIM: To create an interactive form in Flutter using the Form widget and input fields with validation.
+
+OBJECTIVE: To understand how to create a form, accept user input, validate the entered data, and perform
+an action when the form is submitted.
+
+COURSE OUTCOME: Design and implement user interfaces using Flutter widgets, layouts, and animations,
+ensuring responsiveness and interactivity
+
+THEORY: The Form widget in Flutter is used to group and manage multiple input fields. It works with
+widgets such as TextFormField to collect information from users. Form validation helps ensure that the
+entered data is correct before submission. A GlobalKey<FormState> is commonly used to access and
+validate the form. The validator property of TextFormField checks the input and displays an error
+message when the entered data is invalid.
+
+Software Requirements: -
+
+      Flutter SDK
+     Dart
+     Android Studio / DartPad
+     Web browser
+
+CODE:
+            import 'package:flutter/material.dart';                        class GovtFormScreen extends
+                                                                    StatefulWidget {
+            void main() {                                              const GovtFormScreen({super.key});
+            runApp(const GovtFormApp());
+           }                                                    @override
+                                                               State<GovtFormScreen> createState()
+             class GovtFormApp extends                       => _GovtFormScreenState();
+            StatelessWidget {                                    }
+             const GovtFormApp({super.key});
+                                                                            class _GovtFormScreenState extends
+            @override                                         State<GovtFormScreen> {
+            Widget build(BuildContext context) {                         final _formKey =
+               return MaterialApp(                                 GlobalKey<FormState>();
+                      title: 'Government Service
+            Application Portal',                                                              // Form Controllers
+             debugShowCheckedModeBanner:                          final _nameController =
+               false,                                                      TextEditingController();
+               theme: ThemeData(                                          final _idController =
+                colorScheme:                                         TextEditingController();
+           ColorScheme.fromSeed(                                         final _dobController =
+                  seedColor: const                                     TextEditingController();
+           Color(0xFF0F3D3E),                                            final _emailController =
+                   brightness: Brightness.light,                          TextEditingController();
+                         ),                                                             final _phoneController =
+                scaffoldBackgroundColor: const                       TextEditingController();
+           Color(0xFFF4F6F8),                                             final _addressController =
+                 useMaterial3: true,                                    TextEditingController();
+                       ),                                                              final _pincodeController =
+             home: const GovtFormScreen(),                        TextEditingController();
+                    );
+            }                                                                                       // Selection states
+           }                                                           String? _gender = 'Male';
+                                                                         String? _serviceType = 'Passport
+Renewal & Issue';                                              _applicationId = 'GOVT-2026-
+ String? _state = 'California / State                     ${(10000 +
+Portal';                                                (DateTime.now().millisecondsSinceEp
+ bool _declarationAccepted = false;                     och % 89999))}';
+ bool _isSubmitted = false;                                   _isSubmitted = true;
+ String _applicationId = '';                                          });
+
+ final List<String> _genderOptions =                         ScaffoldMessenger.of(context).sho
+['Male', 'Female', 'Other', 'Prefer not to                  wSnackBar(
+say'];                                                    SnackBar(
+                                                                   content: Text('Application
+ final List<String> _serviceOptions =                    Submitted Successfully! ID:
+[                                                             $_applicationId'),
+   'Passport Renewal & Issue',                                backgroundColor: const
+   'National Identity Card                             Color(0xFF0F3D3E),
+(Aadhaar/SSN)',                                                behavior:
+  'Income & Caste Certificate',                           SnackBarBehavior.floating,
+  'Driving License & Vehicle Reg',                                         ),
+   'Citizen Welfare Grant Scheme',                                        );
+  ];                                                   }
+                                                    }
+ final List<String> _stateOptions = [
+   'California / State Portal',                               void _resetForm() {
+  'New York / Central Region',                               _formKey.currentState?.reset();
+  'Texas / Southern District',                                 _nameController.clear();
+   'Delhi / National Capital Territory',                          _idController.clear();
+  'Maharashtra / Western Zone',                              _dobController.clear();
+  ];                                                            _emailController.clear();
+                                                              _phoneController.clear();
+ @override                                                   _addressController.clear();
+ void dispose() {                                             _pincodeController.clear();
+  _nameController.dispose();                                    setState(() {
+  _idController.dispose();                                 _gender = 'Male';
+  _dobController.dispose();                                _serviceType =
+  _emailController.dispose();                               _serviceOptions.first;
+  _phoneController.dispose();                                   _state = _stateOptions.first;
+  _addressController.dispose();                              _declarationAccepted = false;
+  _pincodeController.dispose();                             _isSubmitted = false;
+   super.dispose();                                             _applicationId = '';
+ }                                                                    });
+                                                    }
+ void _submitForm() {
+   if                                                    void _triggerPrint() {
+(_formKey.currentState!.validate()) {                        ScaffoldMessenger.of(context).show
+     if (!_declarationAccepted) {                        SnackBar(
+     ScaffoldMessenger.of(context).sh                        const SnackBar(
+owSnackBar(                                                    content: Row(
+      const SnackBar(                                             children: [
+       content: Text('Please accept the                            Icon(Icons.print_rounded,
+official declaration to proceed.'),                             color: Colors.white),
+       backgroundColor:                                      SizedBox(width: 12),
+Colors.redAccent,                                             Expanded(child: Text('Opening
+       behavior:                                              Print Preview & Exporting Official
+SnackBarBehavior.floating,                                 Document...')),
+         ),                                                                                 ],
+       );                                                                                 ),
+     return;                                                    behavior:
+   }                                                    SnackBarBehavior.floating,
+                                                          backgroundColor:
+    setState(() {                                     Color(0xFF0F3D3E),
+     ),                                                                icon: const
+   );                                                       Icon(Icons.print_rounded),
+ }                                                                          tooltip: 'Print Application
+                                                               Receipt',
+ Future<void> _selectDateOfBirth()                              onPressed: _triggerPrint,
+async {                                                                                   ),
+   final DateTime? picked = await                              IconButton(
+showDatePicker(                                                   icon: const
+    context: context,                                       Icon(Icons.refresh_rounded),
+    initialDate: DateTime(2000, 1, 1),                                 tooltip: 'Reset Form',
+    firstDate: DateTime(1920),                                  onPressed: _resetForm,
+    lastDate: DateTime.now(),                                                  ),
+   );                                                            const SizedBox(width: 8),
+   if (picked != null) {                                                            ],
+    setState(() {                                                                    ),
+     _dobController.text =                                 body: SingleChildScrollView(
+"${picked.day.toString().padLeft(2,                           padding: const
+'0')}/${picked.month.toString().padLef                    EdgeInsets.symmetric(horizontal: 20,
+t(2, '0')}/${picked.year}";                                      vertical: 24),
+    });                                                              child: Center(
+  }                                                                   child: ConstrainedBox(
+ }                                                                     constraints: const
+                                                     BoxConstraints(maxWidth: 800),
+ @override                                                            child: _isSubmitted ?
+ Widget build(BuildContext context) {                   _buildSubmittedReceiptView() :
+   return Scaffold(                                     _buildFormView(),
+   appBar: AppBar(                                                               ),
+    backgroundColor: const                                                  ),
+Color(0xFF0F3D3E),                                                            ),
+     foregroundColor: Colors.white,                                   );
+     elevation: 2,                                      }
+       title: const Row(
+      children: [                                                                  // --- FORM INPUT VIEW ---
+       Icon(Icons.account_balance,                     Widget _buildFormView() {
+size: 28),                                                      return Card(
+       SizedBox(width: 12),                                    elevation: 4,
+      Column(                                             shape:
+        crossAxisAlignment:                          RoundedRectangleBorder(borderRadiu
+CrossAxisAlignment.start,                                         s: BorderRadius.circular(16)),
+         children: [                                                child: Padding(
+         Text(                                              padding: const
+        'NATIONAL CITIZEN                          EdgeInsets.all(28.0),
+PORTAL',                                                          child: Form(
+             style: TextStyle(fontSize:                            key: _formKey,
+16, fontWeight: FontWeight.bold,                                   child: Column(
+letterSpacing: 1.1),                                            crossAxisAlignment:
+              ),                                              CrossAxisAlignment.start,
+         Text(                                                      children: [
+          'Government Services                                                     // Header Badge
+Official Application Form',                                        Container(
+             style: TextStyle(fontSize:                               padding: const
+11, color: Colors.white70),                                  EdgeInsets.all(16),
+              ),                                                          decoration: BoxDecoration(
+            ],                                                                color: const
+          ),                                             Color(0xFF0F3D3E).withValues(alpha
+         ],                                                                              : 0.08),
+       ),                                                            borderRadius:
+     actions: [                                             BorderRadius.circular(12),
+        if (_isSubmitted)                                               border: Border.all(color:
+       IconButton(                                       const
+Color(0xFF0F3D3E).withValues(alpha                                 validator: (val) => val ==
+: 0.2)),                                                        null ? 'Please select a service' : null,
+              ),                                                                                 ),
+           child: const Row(                                        const SizedBox(height: 16),
+           children: [                                       DropdownButtonFormField<S
+            Icon(Icons.verified_user_r                      tring>(
+ounded, color: Color(0xFF0F3D3E),                                   initialValue: _state,
+size: 36),                                                            decoration:
+           SizedBox(width: 16),                          _inputDecoration('State / Regional
+          Expanded(                                      Jurisdiction *',
+               child: Column(                               Icons.location_city_rounded),
+             crossAxisAlignment:                                  items: _stateOptions
+CrossAxisAlignment.start,                                              .map((st) =>
+               children: [                             DropdownMenuItem(value: st, child:
+               Text(                                         Text(st)))
+             'OFFICIAL                                                  .toList(),
+APPLICATION FORM 2026',                                 onChanged: (val) =>
+                   style: TextStyle(                            setState(() => _state = val),
+                 fontWeight:                                          validator: (val) => val ==
+FontWeight.bold,                                             null ? 'Please select your state' : null,
+                   fontSize: 16,                                                     ),
+                   color:                                           const SizedBox(height: 24),
+Color(0xFF0F3D3E),
+                        ),                                                                         // SECTION 2: Personal
+                       ),                                        Information
+               SizedBox(height: 4),                                 _buildSectionTitle('2.
+               Text(                                    Personal Applicant Information'),
+                  'Please fill in all                                  const SizedBox(height: 12),
+mandatory entries accurately as per                              TextFormField(
+official government records.',                                            controller: _nameController,
+                   style:                                               decoration:
+TextStyle(fontSize: 12, color:                              _inputDecoration('Full Legal Name (as
+Colors.black87),                                          per Govt ID) *',
+                       ),                                        Icons.person_rounded),
+                     ],                                                         validator: (val) {
+                   ),                                                                           if (val == null ||
+                 ),                                              val.trim().isEmpty) return 'Full name is
+                ],                                                   required';
+              ),                                                                                if (val.trim().length < 3)
+            ),                                                   return 'Name must be at least 3
+        const SizedBox(height: 24),                         characters';
+                                                                        return null;
+             // SECTION 1: Service                                          },
+Selection                                                                                    ),
+         _buildSectionTitle('1. Service                             const SizedBox(height: 16),
+& Jurisdiction Details'),                                 Row(
+        const SizedBox(height: 12),                                  children: [
+       DropdownButtonFormField<S                           Expanded(
+tring>(                                                                      child: TextFormField(
+          initialValue: _serviceType,                                       controller: _idController,
+          decoration:                                                    decoration:
+_inputDecoration('Service Requested                      _inputDecoration('Citizen ID / SSN /
+*', Icons.room_service_rounded),                       Aadhaar No *', Icons.badge_rounded),
+          items: _serviceOptions                                           validator: (val) {
+            .map((s) =>                                                                   if (val == null ||
+DropdownMenuItem(value: s, child:                        val.trim().isEmpty) return 'Govt ID
+Text(s)))                                         number is required';
+              .toList(),                                                                       if (val.trim().length < 6)
+        onChanged: (val) =>                              return 'Enter a valid ID number';
+setState(() => _serviceType = val),                                         return null;
+                },                                           \.]+@([\w-]+\.)+[\w-
+                 ),                                             ]{2,4}$').hasMatch(val)) {
+                ),                                                                return 'Enter a valid
+           const SizedBox(width: 16),                    email address';
+         Expanded(                                             }
+             child: TextFormField(                                         return null;
+               controller:                                                         },
+_dobController,                                                                               ),
+            readOnly: true,                                                            ),
+            onTap:                                                 const SizedBox(width: 16),
+_selectDateOfBirth,                                           Expanded(
+              decoration:                                                   child: TextFormField(
+_inputDecoration('Date of Birth                                             controller:
+(DD/MM/YYYY) *',                                     _phoneController,
+Icons.calendar_today_rounded),                                    keyboardType:
+              validator: (val) => (val                     TextInputType.phone,
+== null || val.isEmpty) ? 'Select date of                                   decoration:
+birth' : null,                                             _inputDecoration('Mobile Number *',
+                 ),                                           Icons.phone_rounded),
+                ),                                                                 validator: (val) {
+              ],                                                                                    if (val == null ||
+            ),                                                  val.trim().isEmpty) return 'Phone
+        const SizedBox(height: 16),                   number is required';
+       DropdownButtonFormField<S                                               if (val.trim().length <
+tring>(                                                 10) return 'Enter 10-digit mobile
+          initialValue: _gender,                          number';
+          decoration:                                                      return null;
+_inputDecoration('Gender *',                                                   },
+Icons.people_rounded),                                                                    ),
+          items: _genderOptions                                                       ),
+            .map((g) =>                                                               ],
+DropdownMenuItem(value: g, child:                                             ),
+Text(g)))                                                         const SizedBox(height: 16),
+              .toList(),                                          TextFormField(
+        onChanged: (val) =>                                          controller:
+setState(() => _gender = val),                              _addressController,
+            ),                                                    maxLines: 2,
+        const SizedBox(height: 24),                                 decoration:
+                                                        _inputDecoration('Permanent
+             // SECTION 3: Contact &                         Residential Address *',
+Address                                               Icons.home_rounded),
+         _buildSectionTitle('3. Contact                                 validator: (val) => (val ==
+& Communication Address'),                                null || val.trim().isEmpty) ? 'Residential
+        const SizedBox(height: 12),                      address is required' : null,
+      Row(                                                                             ),
+          children: [                                               const SizedBox(height: 16),
+         Expanded(                                          TextFormField(
+             child: TextFormField(                                      controller:
+               controller:                                   _pincodeController,
+_emailController,                                              keyboardType:
+            keyboardType:                            TextInputType.number,
+TextInputType.emailAddress,                                        decoration:
+              decoration:                                 _inputDecoration('Pincode / Postal Zip
+_inputDecoration('Email Address *',                  Code *',
+Icons.email_rounded),                                  Icons.markunread_mailbox_rounded),
+              validator: (val) {                                          validator: (val) {
+                    if (val == null ||                                                       if (val == null ||
+val.trim().isEmpty) return 'Email                           val.trim().isEmpty) return 'Pincode is
+address is required';                                           required';
+                    if (!RegExp(r'^[\w-                                                  if (val.trim().length < 5)
+return 'Enter a valid postal code';                                   const SizedBox(height: 32),
+           return null;
+           },                                                                                    // SUBMIT & RESET
+            ),                               BUTTONS
+        const SizedBox(height: 24),                        Row(
+                                                            mainAxisAlignment:
+             // SECTION 4: Declaration                     MainAxisAlignment.end,
+Checkbox                                                              children: [
+         _buildSectionTitle('4. Official                               OutlinedButton.icon(
+Legal Declaration'),                                                 onPressed: _resetForm,
+        const SizedBox(height: 8),                                      icon: const
+        FormField<bool>(                                Icon(Icons.clear_all_rounded),
+          initialValue:                                                       label: const Text('Reset
+_declarationAccepted,                                     Form'),
+          validator: (val) =>                                                  style:
+_declarationAccepted ? null : 'You                        OutlinedButton.styleFrom(
+must accept the declaration',                                          padding: const
+          builder: (state) {                                EdgeInsets.symmetric(horizontal: 24,
+           return Column(                                     vertical: 16),
+           crossAxisAlignment:                                      shape:
+CrossAxisAlignment.start,                             RoundedRectangleBorder(borderRadiu
+             children: [                                              s: BorderRadius.circular(12)),
+            CheckboxListTile(                                                        ),
+              contentPadding:                                                         ),
+EdgeInsets.zero,                                                     const SizedBox(width: 16),
+                    title: const Text(                                      ElevatedButton.icon(
+                          'I hereby declare that                                 onPressed: _submitForm,
+all provided statements and document                                   icon: const
+details are true, correct, and complete                     Icon(Icons.send_rounded),
+to the best of my knowledge.',                                              label: const Text('Submit
+                  style:                                        Application'),
+TextStyle(fontSize: 13, height: 1.4),                                         style:
+                     ),                                         ElevatedButton.styleFrom(
+               value:                                               backgroundColor: const
+_declarationAccepted,                                Color(0xFF0F3D3E),
+               activeColor: const                                      foregroundColor:
+Color(0xFF0F3D3E),                                      Colors.white,
+            onChanged: (val) {                                     padding: const
+                 setState(() {                               EdgeInsets.symmetric(horizontal: 32,
+                _declarationAccepted                       vertical: 16),
+= val ?? false;                                                         shape:
+                  });                                    RoundedRectangleBorder(borderRadiu
+                state.didChange(val);                            s: BorderRadius.circular(12)),
+                 },                                                           elevation: 2,
+                   ),                                                                                ),
+                  if (state.hasError)                                                         ),
+             Padding(                                                                ],
+               padding: const                                                      ),
+EdgeInsets.only(left: 12),                                                           ],
+                 child: Text(                                                     ),
+                  state.errorText!,                                            ),
+                   style: const                                                  ),
+TextStyle(color: Colors.redAccent,                                     );
+fontSize: 12),                                         }
+                       ),
+                     ),                                                                  // --- SUBMITTED RECEIPT &
+                 ],                                 PRINT PREVIEW VIEW ---
+               );                                        Widget
+           },                                            _buildSubmittedReceiptView() {
+            ),                                                     return Card(
+    elevation: 6,                                      'APPLICATION ENTRY
+    shape:                                 SUMMARY',
+RoundedRectangleBorder(borderRadiu                                 style: TextStyle(fontSize: 14,
+s: BorderRadius.circular(16)),                            fontWeight: FontWeight.bold, color:
+    child: Padding(                                   Color(0xFF0F3D3E)),
+     padding: const                                                                   ),
+EdgeInsets.all(32.0),                                             const SizedBox(height: 16),
+     child: Column(                                            _buildReceiptRow('Application
+      crossAxisAlignment:                             Reference ID', _applicationId, isBold:
+CrossAxisAlignment.start,                                      true),
+      children: [                                               _buildReceiptRow('Service
+           // Official Header Banner for                       Requested', _serviceType ?? '-'),
+Print                                                          _buildReceiptRow('State /
+       Center(                                        Regional Jurisdiction', _state ?? '-'),
+         child: Column(                                          const Divider(height: 24),
+          children: [                                           _buildReceiptRow('Applicant
+           const                                            Full Name', _nameController.text),
+Icon(Icons.account_balance, size: 48,                           _buildReceiptRow('Govt ID /
+color: Color(0xFF0F3D3E)),                     SSN / Aadhaar', _idController.text),
+           const SizedBox(height: 8),                           _buildReceiptRow('Date of
+           const Text(                                           Birth', _dobController.text),
+        'GOVERNMENT OF                               _buildReceiptRow('Gender',
+NATIONAL SERVICES',                              _gender ?? '-'),
+              style:                                                const Divider(height: 24),
+TextStyle(fontWeight:                                        _buildReceiptRow('Email
+FontWeight.bold, fontSize: 18,                             Address', _emailController.text),
+letterSpacing: 1.2),                                           _buildReceiptRow('Mobile
+                ),                                       Phone Number',
+           const Text(                                     _phoneController.text),
+          'OFFICIAL CITIZEN                               _buildReceiptRow('Residential
+APPLICATION                                           Address', _addressController.text),
+ACKNOWLEDGEMENT RECEIPT',                           _buildReceiptRow('Postal Code
+              style: TextStyle(fontSize:                                 / Pincode', _pincodeController.text),
+12, color: Colors.grey, fontWeight:                             _buildReceiptRow('Submission
+FontWeight.bold),                                      Timestamp',
+                ),                                              DateTime.now().toString().substring(0,
+           const SizedBox(height: 12),                       19)),
+          Chip(                                               _buildReceiptRow('Declaration
+             avatar: const                                        Status', 'VERIFIED & SIGNED
+Icon(Icons.check_circle, color:                     ELECTRONICALLY'),
+Colors.green),                                                    const SizedBox(height: 32),
+             label: Text(
+          'STATUS:                                                                // Action Buttons (Print / Edit)
+APPLICATION SUBMITTED • REF:                     Row(
+$_applicationId',                                             mainAxisAlignment:
+               style: const                              MainAxisAlignment.spaceBetween,
+TextStyle(fontWeight:                                                children: [
+FontWeight.bold, fontSize: 12),                                    OutlinedButton.icon(
+                 ),                                                     onPressed: () {
+           backgroundColor:                                             setState(() {
+Colors.green.withValues(alpha: 0.1),                                  _isSubmitted = false;
+                ),                                                                    });
+              ],                                                                   },
+            ),                                                              icon: const
+          ),                                                 Icon(Icons.edit_note_rounded),
+       const Divider(height: 36,                                          label: const Text('Edit
+thickness: 1.5),                                                   Entries'),
+                                                                                style:
+           // Entries Summary Table                         OutlinedButton.styleFrom(
+       const Text(                                                  padding: const
+EdgeInsets.symmetric(horizontal: 20,                                   style: TextStyle(
+vertical: 14),                                                    fontWeight: isBold ?
+                ),                                          FontWeight.bold : FontWeight.w500,
+              ),                                                           fontSize: 13,
+       Row(                                                         color: isBold ? const
+           children: [                               Color(0xFF0F3D3E) : Colors.black87,
+            ElevatedButton.icon(                                                  ),
+             onPressed: _triggerPrint,                                         ),
+              icon: const                                                          ),
+Icon(Icons.print_rounded),                                                     ],
+               label: const Text('Print                                       ),
+Application Form / Save PDF'),                                         );
+               style:                                    }
+ElevatedButton.styleFrom(
+             backgroundColor: const                   Widget _buildSectionTitle(String
+Color(0xFF0F3D3E),                                                 title) {
+              foregroundColor:                               return Text(
+Colors.white,                                                                    title,
+              padding: const                                       style: const TextStyle(
+EdgeInsets.symmetric(horizontal: 28,                            fontSize: 15,
+vertical: 16),                                                fontWeight: FontWeight.bold,
+              shape:                                             color: Color(0xFF0F3D3E),
+RoundedRectangleBorder(borderRadiu                                   ),
+s: BorderRadius.circular(12)),                                           );
+                   ),                                        }
+                 ),
+                ],                                             InputDecoration
+              ),                                              _inputDecoration(String label,
+            ],                                            IconData icon) {
+          ),                                                      return InputDecoration(
+         ],                                                        labelText: label,
+       ),                                                          prefixIcon: Icon(icon, color: const
+     ),                                              Color(0xFF0F3D3E), size: 20),
+   );                                                                       filled: true,
+ }                                                                   fillColor:
+                                                         Colors.grey.withValues(alpha: 0.05),
+ Widget _buildReceiptRow(String                             border: OutlineInputBorder(
+label, String value, {bool isBold =                             borderRadius:
+false}) {                                                  BorderRadius.circular(12),
+   return Padding(                                             borderSide: BorderSide(color:
+   padding: const                                        Colors.grey.withValues(alpha: 0.3)),
+EdgeInsets.symmetric(vertical: 6.0),                                       ),
+    child: Row(                                            enabledBorder:
+    crossAxisAlignment:                                OutlineInputBorder(
+CrossAxisAlignment.start,                                    borderRadius:
+     children: [                                            BorderRadius.circular(12),
+     SizedBox(                                              borderSide: BorderSide(color:
+       width: 220,                                       Colors.grey.withValues(alpha: 0.3)),
+        child: Text(                                                               ),
+          label,                                              focusedBorder:
+          style: const                                      OutlineInputBorder(
+TextStyle(fontWeight:                                        borderRadius:
+FontWeight.w600, color:                                  BorderRadius.circular(12),
+Colors.black54, fontSize: 13),                                  borderSide: const
+          ),                                                 BorderSide(color:
+         ),                                            Color(0xFF0F3D3E), width: 2),
+      const Text(' :  '),                                                           ),
+     Expanded(                                            contentPadding: const
+        child: Text(                                       EdgeInsets.symmetric(horizontal: 16,
+         value,                                                  vertical: 14),
+                    );                                                }
+            }
+
+
+
+OUTPUT:
+
+
+
+
+
+CONCLUSION: The interactive Flutter form was successfully created using the Form and TextFormField
+widgets, with input validation and form submission functionality. The practical demonstrated how Flutter's
+Form widget and validation features can be used to create an
+interactive and user-friendly form for collecting and validating user input.

@@ -1,0 +1,12 @@
+name: madl_task_6
+description: MAD laboratory experiment 6.
+publish_to: none
+version: 1.0.0+1
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  fl_chart: ^1.1.1
+flutter:
+  uses-material-design: true

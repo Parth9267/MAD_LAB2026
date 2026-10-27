@@ -1,0 +1,13 @@
+# Flutter build and tool outputs
+**/.dart_tool/
+**/build/
+**/.flutter-plugins*
+**/.idea/
+**/local.properties
+**/key.properties
+*.jks
+*.keystore
+
+# Local validation logs
+**/pub-get.log
+**/analysis.log

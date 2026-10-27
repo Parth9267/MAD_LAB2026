@@ -1,0 +1,222 @@
+                   EXPERIMENT 3
+
+AIM: To design a Flutter user interface by using common Flutter widgets such as Text, Container, Row,
+Column, Image, TextField, ElevatedButton, Icon, and Scaffold.
+
+OBJECTIVE: To understand and implement commonly used Flutter widgets for creating an interactive
+and user-friendly mobile application interface.
+
+COURSE OUTCOME: Design and implement user interfaces using Flutter widgets, layouts, and
+animations, ensuring responsiveness and interactivity.
+
+THEORY: Flutter is an open-source UI framework developed by Google for creating cross-platform
+mobile applications using the Dart programming language. Flutter uses widgets as the basic building
+blocks of its user interface. Common widgets such as Scaffold, AppBar, Text, Container, Row, Column,
+Icon, TextField, and Buttons are used to create and arrange different elements on the screen. Row arranges
+widgets horizontally, while Column arranges them vertically. Container is used for styling and spacing, and
+TextField accepts user input.
+Flutter also provides Hot Reload, which allows developers to view code changes quickly without restarting
+the entire application. Thus, common Flutter widgets can be combined to create a simple, interactive, and
+user-friendly UI.
+
+CODE:
+import 'package:flutter/material.dart';                        colorScheme:
+                                                    ColorScheme.fromSeed(seedColor: const
+void main() => runApp(const PremiumApp());           Color(0xFF6366F1), brightness: Brightness.dark),
+                                                          scaffoldBackgroundColor: const
+class PremiumApp extends StatefulWidget {            Color(0xFF0B0F19),
+ const PremiumApp({super.key});                            useMaterial3: true,
+                                                                                     ),
+ @override                                         home: MainDashboard(isDark: _isDark,
+ State<PremiumApp> createState() =>                onToggleTheme: (v) => setState(() => _isDark =
+_PremiumAppState();                                           v)),
+}                                                                                );
+                                                  }
+class _PremiumAppState extends                     }
+State<PremiumApp> {
+ bool _isDark = false;                                      class MainDashboard extends StatefulWidget {
+                                                                   final bool isDark;
+ @override                                                      final ValueChanged<bool> onToggleTheme;
+ Widget build(BuildContext context) {
+  return MaterialApp(                                    const MainDashboard({super.key, required
+     title: 'Nova Wallet',                                      this.isDark, required this.onToggleTheme});
+   debugShowCheckedModeBanner: false,
+   themeMode: _isDark ? ThemeMode.dark :            @override
+ThemeMode.light,                                   State<MainDashboard> createState() =>
+   theme: ThemeData(                                _MainDashboardState();
+    colorScheme:                                 }
+ColorScheme.fromSeed(seedColor: const
+Color(0xFF6366F1), brightness: Brightness.light),         class _MainDashboardState extends
+    scaffoldBackgroundColor: const                  State<MainDashboard> {
+Color(0xFFF8FAFC),                                           int _navIndex = 0;
+     useMaterial3: true,                                double _balance = 12480.50;
+     ),                                                      String _selectedCat = 'All';
+   darkTheme: ThemeData(                                   final List<String> _cats = ['All', 'Crypto', 'Stocks',
+'NFTs'];                                                            child: ListView(
+                                                            padding: EdgeInsets.zero,
+ final List<Map<String, dynamic>> _assets = [                  children: [
+  {'name': 'Bitcoin', 'symbol': 'BTC', 'val':                     UserAccountsDrawerHeader(
+'\$64,230.00', 'change': '+4.2%', 'up': true, 'icon':                 accountName: const Text('Parth
+Icons.currency_bitcoin, 'color': Colors.orange},            Rodrigues', style: TextStyle(fontWeight:
+  {'name': 'Ethereum', 'symbol': 'ETH', 'val':              FontWeight.bold)),
+'\$3,450.20', 'change': '+2.8%', 'up': true, 'icon':                   accountEmail: const
+Icons.token, 'color': Colors.deepPurple},                   Text('parth@novawallet.io'),
+  {'name': 'Solana', 'symbol': 'SOL', 'val':                         currentAccountPicture: const
+'\$145.80', 'change': '-1.4%', 'up': false, 'icon':             CircleAvatar(backgroundColor: Colors.white,
+Icons.flash_on, 'color': Colors.teal},                         child: Icon(Icons.account_balance_wallet, color:
+  ];                                                 Color(0xFF6366F1), size: 32)),
+                                                                   decoration: const BoxDecoration(gradient:
+ void _toast(String msg) {                                LinearGradient(colors: [Color(0xFF4F46E5),
+  ScaffoldMessenger.of(context).clearSnackBars()       Color(0xFF7C3AED)])),
+;                                                                                         ),
+  ScaffoldMessenger.of(context).showSnackBar(                 ListTile(leading: const
+   SnackBar(content: Text(msg), behavior:              Icon(Icons.space_dashboard_rounded), title: const
+SnackBarBehavior.floating, duration: const               Text('Overview'), onTap: () =>
+Duration(seconds: 2)),                                    Navigator.pop(context)),
+   );                                                                ListTile(leading: const
+ }                                                    Icon(Icons.show_chart_rounded), title: const
+                                                            Text('Markets'), onTap: () =>
+ @override                                              Navigator.pop(context)),
+ Widget build(BuildContext context) {                            ListTile(leading: const
+   final theme = Theme.of(context);                      Icon(Icons.swap_horiz_rounded), title: const
+   final isDark = widget.isDark;                            Text('Transactions'), onTap: () =>
+                                                         Navigator.pop(context)),
+  return Scaffold(                                              const Divider(),
+   appBar: AppBar(                                            SwitchListTile(
+      title: const Text('Nova Portfolio', style:                      secondary: const
+TextStyle(fontWeight: FontWeight.bold, fontSize:        Icon(Icons.dark_mode_rounded),
+20)),                                                                                   title: const Text('Dark Mode'),
+     actions: [                                                     value: widget.isDark,
+      IconButton(icon: Icon(isDark ?                         onChanged: (v) { Navigator.pop(context);
+Icons.light_mode : Icons.dark_mode), onPressed:         widget.onToggleTheme(v); },
+() => widget.onToggleTheme(!isDark)),                                    ),
+     Badge(                                                                        ],
+        label: const Text('2'),                                                  ),
+        child: IconButton(icon: const                                    ),
+Icon(Icons.notifications_outlined), onPressed: ()
+=> _toast('2 Notifications')),                              body: SingleChildScrollView(
+        ),                                                    padding: const EdgeInsets.all(16),
+      const SizedBox(width: 8),                                  child: Column(
+      const Padding(                                        crossAxisAlignment:
+       padding: EdgeInsets.only(right: 12),               CrossAxisAlignment.start,
+        child: CircleAvatar(radius: 16,                            children: [
+backgroundColor: Color(0xFF6366F1), child:                              // Search Input
+Icon(Icons.person, size: 18, color: Colors.white)),                TextField(
+        ),                                                           decoration: InputDecoration(
+       ],                                                              hintText: 'Search assets, tokens,
+     ),                                                            markets...',
+                                                                     prefixIcon: const
+   drawer: Drawer(                                     Icon(Icons.search_rounded),
+            filled: true,                                                    children: [
+           fillColor: isDark ? const                                Expanded(
+Color(0xFF1E293B) : Colors.white,                                        child: ElevatedButton.icon(
+          border:                                                      onPressed: () { setState(() =>
+OutlineInputBorder(borderRadius:                      _balance += 250.0); _toast('Deposit successful
+BorderRadius.circular(16), borderSide:                     (+\$250)'); },
+BorderSide.none),                                                         icon: const
+            ),                                           Icon(Icons.arrow_downward_rounded, size: 18),
+          ),                                                                        label: const Text('Deposit'),
+       const SizedBox(height: 16),                                             style:
+                                                      ElevatedButton.styleFrom(backgroundColor:
+           // Hero Balance Card                              Colors.white, foregroundColor: const
+       Container(                                   Color(0xFF4F46E5), shape:
+        width: double.infinity,                         RoundedRectangleBorder(borderRadius:
+        padding: const EdgeInsets.all(22),                BorderRadius.circular(12))),
+        decoration: BoxDecoration(                                                   ),
+          gradient: const LinearGradient(colors:                                  ),
+[Color(0xFF4F46E5), Color(0xFF9333EA)],                          const SizedBox(width: 10),
+begin: Alignment.topLeft, end:                                   Expanded(
+Alignment.bottomRight),                                                   child: OutlinedButton.icon(
+         borderRadius: BorderRadius.circular(24),                      onPressed: () { if (_balance >=
+        boxShadow: [BoxShadow(color: const         100) setState(() => _balance -= 100.0);
+Color(0xFF4F46E5).withValues(alpha: 0.35),              _toast('Transfer completed (-\$100)'); },
+blurRadius: 16, offset: const Offset(0, 8))],                                 icon: const
+            ),                                            Icon(Icons.arrow_upward_rounded, size: 18),
+         child: Column(                                                        label: const Text('Send'),
+         crossAxisAlignment:                                                 style:
+CrossAxisAlignment.start,                              OutlinedButton.styleFrom(foregroundColor:
+          children: [                                      Colors.white, side: const BorderSide(color:
+        Row(                                         Colors.white70), shape:
+          mainAxisAlignment:                       RoundedRectangleBorder(borderRadius:
+MainAxisAlignment.spaceBetween,                       BorderRadius.circular(12))),
+             children: [                                                                     ),
+             const Text('Total Net Worth', style:                                 ),
+TextStyle(color: Colors.white70, fontSize: 13,                                   ],
+fontWeight: FontWeight.w500)),                                                  ),
+             Container(                                                              ],
+             padding: const                                                     ),
+EdgeInsets.symmetric(horizontal: 10, vertical: 4),                       ),
+              decoration: BoxDecoration(color:                 const SizedBox(height: 20),
+const Color(0xFF10B981).withValues(alpha:
+0.25), borderRadius: BorderRadius.circular(20)),                          // Category Selector Chips
+                child: const Text('+14.2%', style:              Row(
+TextStyle(color: Colors.greenAccent, fontSize: 12,               mainAxisAlignment:
+fontWeight: FontWeight.bold)),                       MainAxisAlignment.spaceBetween,
+                   ),                                                      children: [
+                 ],                                                     const Text('Top Assets', style:
+               ),                                              TextStyle(fontSize: 18, fontWeight:
+           const SizedBox(height: 8),                    FontWeight.bold)),
+          Text('\$${_balance.toStringAsFixed(2)}                TextButton(onPressed: () => _toast('See
+', style: const TextStyle(color: Colors.white,                   all assets'), child: const Text('See All')),
+fontSize: 32, fontWeight: FontWeight.bold,                                  ],
+letterSpacing: 0.5)),                                                               ),
+           const SizedBox(height: 20),                      Wrap(
+        Row(                                                 spacing: 8,
+         children: _cats.map((cat) {                        Colors.red, fontSize: 12, fontWeight:
+           final sel = _selectedCat == cat;                FontWeight.w600)),
+          return ChoiceChip(                                                            ],
+            label: Text(cat),                                                              ),
+           selected: sel,                                                               ),
+          onSelected: (s) => setState(() =>                                  );
+_selectedCat = cat),                                                     },
+           selectedColor:                                                        ),
+theme.colorScheme.primaryContainer,                                     ],
+             );                                                                         ),
+          }).toList(),                                                           ),
+          ),
+       const SizedBox(height: 12),                          floatingActionButton:
+                                                       FloatingActionButton.extended(
+           // Assets List                                         onPressed: () => _toast('Quick Trade
+       ListView.builder(                                  Executed'),
+        shrinkWrap: true,                                      icon: const Icon(Icons.swap_calls_rounded),
+        physics: const                                             label: const Text('Quick Trade')),
+NeverScrollableScrollPhysics(),                         bottomNavigationBar: NavigationBar(
+        itemCount: _assets.length,                            selectedIndex: _navIndex,
+        itemBuilder: (ctx, i) {                                onDestinationSelected: (i) => setState(() =>
+           final item = _assets[i];                       _navIndex = i),
+          return Card(                                            destinations: const [
+           elevation: 0,                                        NavigationDestination(icon:
+          margin: const EdgeInsets.only(bottom:         Icon(Icons.wallet_outlined), selectedIcon:
+10),                                                     Icon(Icons.wallet_rounded), label: 'Wallet'),
+           color: isDark ? const                                NavigationDestination(icon:
+Color(0xFF1E293B) : Colors.white,                       Icon(Icons.bar_chart_outlined), selectedIcon:
+          shape:                                        Icon(Icons.bar_chart_rounded), label: 'Markets'),
+RoundedRectangleBorder(borderRadius:                       NavigationDestination(icon:
+BorderRadius.circular(16), side: BorderSide(color:        Icon(Icons.swap_horiz_outlined), selectedIcon:
+isDark ? Colors.white10 :                               Icon(Icons.swap_horiz_rounded), label: 'Trade'),
+Colors.grey.withValues(alpha: 0.15))),                         NavigationDestination(icon:
+            child: ListTile(                                 Icon(Icons.person_outline), selectedIcon:
+            leading:                                     Icon(Icons.person_rounded), label: 'Profile'),
+CircleAvatar(backgroundColor: (item['color'] as                      ],
+Color).withValues(alpha: 0.15), child:                                  ),
+Icon(item['icon'] as IconData, color: item['color'] as              );
+Color)),                                           }
+                title: Text(item['name'] as String, style:       }
+const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text(item['symbol'] as String,
+style: TextStyle(color: isDark ? Colors.grey[400] :
+Colors.grey[600])),
+              trailing: Column(
+            mainAxisAlignment:
+MainAxisAlignment.center,
+            crossAxisAlignment:
+CrossAxisAlignment.end,
+              children: [
+               Text(item['val'] as String, style:
+const TextStyle(fontWeight: FontWeight.bold,
+fontSize: 14)),
+              Text(item['change'] as String, style:
+TextStyle(color: item['up'] as bool ? Colors.green :
+Conclusion: By using Flutter's built-in Material 3 widgets, developers can quickly construct
+visually stunning, reactive, and responsive cross-platform applications with minimal,
+maintainable code.

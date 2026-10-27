@@ -1,0 +1,58 @@
+               EXPERIMENT 1
+
+AIM: To install and configure the Flutter development environment and prepare the system for
+Flutter application development.
+
+OBJECTIVE: To install the Flutter SDK, configure Android Studio and Android Emulator,
+and verify the Flutter environment using Flutter tools.
+
+COURSE OUTCOME: Apply Flutter framework and Dart programming to develop
+cross-platform mobile applications, demonstrating proficiency in engineering fundamentals
+and tools.
+
+THEORY: Flutter is an open-source UI framework developed by Google for building
+cross-platform applications using the Dart programming language. The Flutter
+development environment consists of the Flutter SDK and supporting tools required to
+develop, run, and test applications.
+
+The flutter doctor command is used to check whether the required Flutter dependencies and
+development tools are correctly installed and configured.
+
+Software Requirements: -
+
+       Flutter SDK
+
+      Android Studio
+
+      Android SDK
+
+      Android Emulator
+
+       Dart SDK
+
+      Windows operating system
+
+Procedure: -
+
+Step 1: Install Flutter SDK
+
+Step 2: Install Android Studio
+
+Step 3: Configure Android Emulator
+
+Step 4: Verify Flutter Installation
+
+Step 5: Accept Android Licenses
+
+Step 6: Final Verification
+OUTPUT:
+
+
+
+
+
+CONCLUSION: The Flutter development environment was successfully installed and
+configured. The Flutter SDK, Android development tools, and required dependencies were
+verified successfully using the flutter doctor command. The practical helped in
+understanding the installation and configuration of the Flutter development environment, as
+well as using Flutter Doctor to check the system configuration.

@@ -1,0 +1,296 @@
+                   EXPERIMENT 7
+
+AIM: To apply navigation, routing and gestures in a Flutter application.
+
+OBJECTIVE: To implement navigation between screens using Navigator, organize navigation with
+named routes, and handle tap, double-tap and long-press gestures using GestureDetector.
+
+COURSE OUTCOME: CO 2 - Design and implement user interfaces using Flutter widgets, layouts,
+and animations, ensuring responsiveness and interactivity.
+
+THEORY
+
+Flutter manages screen transitions with the Navigator widget. Navigator.push() places a new route on
+the navigation stack, while Navigator.pop() removes the current route and returns to the previous
+screen. MaterialPageRoute provides a basic route when a screen is opened directly.
+
+Named routes improve organization by assigning route names in MaterialApp.routes. A screen can
+then be opened with Navigator.pushNamed(context, '/second'), which keeps navigation definitions
+centralized and supports a scalable project structure.
+
+GestureDetector makes widgets interactive without changing their appearance. Its callbacks include
+onTap, onDoubleTap and onLongPress. In this experiment, gestures display SnackBar feedback and
+update the color of an AnimatedContainer. Navigation and gestures are combined by making the
+Flutter logo open the second screen through a named route.
+
+SOFTWARE REQUIREMENTS
+   Flutter SDK
+   Dart SDK
+  Android Studio or Visual Studio Code
+  Android emulator, physical device, Chrome or Edge
+
+CODE
+
+main dart
+
+  import 'package:flutter/material.dart';
+
+  import 'home_screen.dart';
+  import 'second_screen.dart';
+
+  void main() {
+    runApp(const NavigationGestureApp());
+  }
+
+  class NavigationGestureApp extends StatelessWidget {
+    const NavigationGestureApp({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        title: 'Navigation and Gestures',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFF3157D5),
+         ),
+          useMaterial3: true,
+        ),
+        initialRoute: '/',
+        routes: {
+
+
+          '/': (context) => const HomeScreen(),
+          '/second': (context) => const SecondScreen(
+                openedWith: 'Navigator.pushNamed()',
+              ),
+        },
+      );
+    }
+  }
+home screen dart
+
+  import 'package:flutter/material.dart';
+
+  import 'second_screen.dart';
+
+  class HomeScreen extends StatefulWidget {
+    const HomeScreen({super.key});
+
+    @override
+    State<HomeScreen> createState() => _HomeScreenState();
+  }
+
+  class _HomeScreenState extends State<HomeScreen> {
+    Color _gestureColor = const Color(0xFFE9EDFF);
+    bool _isAlternateColor = false;
+
+    void _showMessage(String message) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(message)));
+    }
+
+    void _changeColor() {
+      setState(() {
+        _isAlternateColor = !_isAlternateColor;
+        _gestureColor = _isAlternateColor
+            ? const Color(0xFFD8F5E7)
+            : const Color(0xFFE9EDFF);
+      });
+      _showMessage('Single tap detected: color changed');
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Experiment 7'),
+          centerTitle: true,
+        ),
+        body: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              Text(
+                'Navigation and Gestures',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Try basic navigation, named routes, and three common gestures.',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              const SizedBox(height: 24),
+              Card(
+                clipBehavior: Clip.antiAlias,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                       key: const Key('namedRouteLogo'),
+                        onTap: () => Navigator.pushNamed(context, '/second'),
+
+
+                      child: const Semantics(
+                        button: true,
+                        label: 'Open second screen using named route',
+                        child: FlutterLogo(size: 112),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Tap the Flutter logo to open the second screen using a named route.',
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            GestureDetector(
+              key: const Key('gestureArea'),
+              onTap: _changeColor,
+              onDoubleTap: () => _showMessage('Double tap detected'),
+              onLongPress: () => _showMessage('Long press detected'),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 28,
+                ),
+                decoration: BoxDecoration(
+                  color: _gestureColor,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: const Color(0xFFB9C4F8)),
+                ),
+                child: const Column(
+                  children: [
+                    Icon(Icons.touch_app_rounded, size: 42),
+                    SizedBox(height: 10),
+                    Text(
+                      'Gesture Playground',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      'Tap to change color • Double tap for a message • Long press for a message',
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            FilledButton.icon(
+              key: const Key('basicNavigationButton'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SecondScreen(
+                      openedWith: 'Navigator.push()',
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.arrow_forward_rounded),
+              label: const Text('Open with Navigator.push'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+second screen dart
+
+  import 'package:flutter/material.dart';
+
+  class SecondScreen extends StatelessWidget {
+    const SecondScreen({
+      super.key,
+      required this.openedWith,
+    });
+
+    final String openedWith;
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Second Screen')),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.check_circle_rounded,
+                  size: 88,
+                  color: Color(0xFF2A8F5B),
+               ),
+                const SizedBox(height: 16),
+                Text(
+                  'Navigation Successful',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+               ),
+                const SizedBox(height: 8),
+                Text(
+                  'Opened with $openedWith',
+                  textAlign: TextAlign.center,
+               ),
+                const SizedBox(height: 24),
+                OutlinedButton.icon(
+                  key: const Key('backButton'),
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.arrow_back_rounded),
+                  label: const Text('Return with Navigator.pop'),
+               ),
+              ],
+            ),
+         ),
+        ),
+      );
+    }
+  }
+
+
+
+
+
+
+OUTPUT
+
+The home screen provides two navigation methods and a gesture playground. The second screen
+confirms how it was opened and returns with Navigator.pop().
+
+
+
+
+
+RESULT
+
+A Flutter mini-application was implemented with basic navigation, named routing and gesture
+detection. The source opens and closes screens through Navigator and handles tap, double-tap and
+long-press input with visual feedback.
+
+CONCLUSION
+
+This experiment demonstrated how Flutter's navigation stack and named routes can organize
+movement between screens. GestureDetector was used to make widgets interactive, while SnackBar
+and color changes provided immediate feedback. Combining these features produced a structured
+and user-friendly mobile application aligned with CO 2 at the Apply level.

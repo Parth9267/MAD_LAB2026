@@ -1,0 +1,5 @@
+# Template only; fill locally and never commit the completed file.
+storePassword=REPLACE_LOCALLY
+keyPassword=REPLACE_LOCALLY
+keyAlias=upload
+storeFile=PATH_TO_YOUR_UPLOAD_KEYSTORE

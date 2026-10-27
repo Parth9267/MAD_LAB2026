@@ -1,0 +1,85 @@
+               EXPERIMENT 2
+
+AIM: To run a basic Flutter Hello World app.
+
+OBJECTIVE: To understand the basic structure of a Flutter application and create, run, and
+display a simple “Hello World” application using Flutter widgets..
+
+COURSE OUTCOME: Apply Flutter framework and Dart programming to develop
+cross-platform mobile applications, demonstrating proficiency in engineering fundamentals
+and tools.
+
+THEORY: Flutter is a UI framework developed by Google for creating cross-platform
+applications using the Dart programming language. A Flutter application starts execution
+from the main() function, where the runApp() method launches the application.
+
+The MaterialApp widget provides the basic structure of the application, while Scaffold
+provides the screen layout. The Text widget is used to display "Hello World!" on the screen.
+
+CODE:
+
+import 'package:flutter/material.dart'; void
+
+main() => runApp(const MaterialApp(
+
+debugShowCheckedModeBanner: false,
+
+home: Scaffold(
+
+  body: Center(
+
+    child: Column(
+
+    mainAxisAlignment: MainAxisAlignment.center,
+
+     children: [
+
+      Icon(Icons.flutter_dash, size: 80),
+
+     SizedBox(height:
+
+      20), Text(
+
+       'Hello World! 蹉蹊蹋蹌蹍蹎蹏蹐蹑',
+
+       style: TextStyle(
+
+       fontSize: 30,
+
+       fontWeight: FontWeight.bold,
+
+          ),
+
+        ),
+     SizedBox(height:
+
+      8), Text(
+
+     'Welcome to Flutter',
+
+        style: TextStyle(fontSize: 16),
+
+        ),
+
+      ],
+
+     ),
+
+   ),
+
+  ),
+
+));
+
+
+
+OUTPUT:
+
+
+
+
+
+CONCLUSION: The basic Flutter Hello World application was successfully created and
+executed with an attractive user interface, displaying a welcome message using common
+Flutter widgets. The basic Flutter Hello World application was successfully created and
+executed, and the "Hello World!" message was displayed on the screen.

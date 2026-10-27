@@ -1,0 +1,164 @@
+Name: Parth Chaudhari               Roll No: 5024112
+                  Experiment 10
+
+Aim
+
+To test and review the Campus Connect Flutter application, configure an Android upload keystore, and
+prepare the release signing and deployment workflow.
+
+Theory
+
+Flutter applications should be analysed and tested before deployment. Static analysis checks Dart code,
+widget tests check interface behavior, and runtime testing examines the application on its target device. APK
+files support Android installation, while Android App Bundles support store distribution.
+
+Android release builds require a signing identity. A keystore holds the private key, key.properties supplies its
+local configuration, and Gradle applies the release signing configuration. The key password and private key
+must remain private.
+
+Steps
+
+1 Test the application Inspect available devices, run the application, and check form validation, Firebase save
+and read actions, search, filtering, and deletion confirmation.
+
+2 Debug and review Run flutter analyze and the setup widget test. Review the Android toolchain with flutter
+doctor -v.
+
+3 Create the upload keystore Generate an RSA upload key using keytool and inspect its certificate. Store the
+password in the ignored local key.properties file.
+
+4 Configure release signing Load key.properties in android/app/build.gradle.kts and assign the release signing
+configuration to release builds.
+
+5 Build and prepare deployment Generate and validate the release APK and App Bundle once the Android
+toolchain is complete. Prepare the store listing and test on Android before publishing.
+Output Terminal Testing
+
+Commands executed in the campus_connect project. The images below display captured command output;
+they were rendered directly from the saved terminal logs.
+
+
+
+
+
+                                       Figure 1 Static analysis and setup widget test passed
+
+
+
+
+
+                                                                                        1
+Name: Parth Chaudhari               Roll No: 5024112
+                                          Figure 2 Device inventory from flutter devices
+
+Static analysis reported no issues and the setup widget test passed. The available targets were Windows,
+Chrome, and Edge. No Android emulator or physical device was connected.
+
+
+Output Mobile User Interface
+
+Actual Campus Connect screenshots captured at a 412 by 915 pixel mobile viewport. The app is running as a
+mobile web preview with a live Firebase connection.
+
+
+
+
+
+Dashboard and connection status                           Student directory and read action
+
+Figure 3 Mobile layout showing two saved students and realtime Firebase status
+
+The mobile interface stacks the input form and directory vertically. Student records were saved and retrieved
+from Firebase and remained visible after reloading the app.
+
+
+
+
+                                                                                        2
+Name: Parth Chaudhari               Roll No: 5024112
+Output Keystore Creation and Certificate
+
+A real upload keystore was created at C:\Users\Parth\.android\campus-connect-upload.jks. Certificate details
+were verified using keytool. The terminal images do not display the password or private key.
+
+keytool -genkeypair -v -keystore <keystore-path>
+  -storetype JKS -keyalg RSA -keysize 2048
+  -validity 10000 -alias upload
+keytool -list -v -keystore <keystore-path> -alias upload
+
+
+
+
+
+                                 Figure 4 Actual key generation and certificate verification output
+
+
+Output Signing Configuration
+
+The keystore alias is upload. The local properties file is excluded by android/.gitignore. The report copy below
+hides both passwords.
+
+
+
+
+
+                                         Figure 5 key.properties with passwords hidden
+
+The Gradle release build now uses the release signing configuration instead of the development debug key.
+
+
+
+
+
+                                                                                        3
+Name: Parth Chaudhari               Roll No: 5024112
+
+
+
+
+
+                                     Figure 6 Applied signing configuration in build.gradle.kts
+
+
+
+
+
+                                                                                        4
+Name: Parth Chaudhari               Roll No: 5024112
+Android Build and Deployment
+
+
+
+
+
+                                          Figure 7 Android toolchain diagnostic output
+
+
+
+
+
+                              Figure 8 Actual Gradle build progress before the attempt was stopped
+
+The Android SDK is detected, but command-line tools are missing and license status is unknown. The APK build
+reached assembleRelease and was stopped before completion. No completed APK has been verified. Android
+device testing and App Bundle verification remain pending.
+
+flutter build apk --release
+flutter build appbundle --release
+
+Expected outputs after successful builds
+build/app/outputs/flutter-apk/app-release.apk
+build/app/outputs/bundle/release/app-release.aab
+
+Conclusion
+
+Campus Connect passed static analysis and its setup widget test. Its mobile web interface demonstrated a live
+Firebase connection and persistent student records. An RSA upload keystore was created and verified, and the
+Gradle release signing configuration was applied. The Android toolchain must be completed and a signed build
+validated on an Android device before deployment.
+
+
+
+
+
+                                                                                        5
