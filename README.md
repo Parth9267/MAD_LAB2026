@@ -17,6 +17,6 @@ Ten experiments, each in its own folder with its report, available code and outp
 
 Tasks 5 and 6 were separated from the combined scan: original pages 1-5 belong to Task 5, and pages 6-10 belong to Task 6. All other reports are unchanged copies of the supplied PDFs.
 
-Tasks 2-8 include Flutter source listings and package manifests. Task 1 contains setup verification commands. Task 9 contains the Firebase code excerpts available in the report; the full Campus Connect project was not supplied. Task 10 contains the testing and release-signing workflow and report evidence. Its report records an incomplete Android release build, so no completed APK/AAB is claimed.
+Tasks 2-8 include Flutter source listings and package manifests. Task 1 contains setup verification commands. Task 9 includes the Campus Connect Flutter project from the supplied ZIP, with app source, Firebase rules, dependencies and a widget test under `Task 9/campus_connect`. Its Firebase options are a setup placeholder; see the project instructions to configure a live connection. Task 10 contains the testing and release-signing workflow and report evidence. Its report records an incomplete Android release build, so no completed APK/AAB is claimed.
 
 Read each task README for setup and source limitations. Output images are evidence from the original reports, not newly executed app screenshots. No private signing keys or passwords are included.

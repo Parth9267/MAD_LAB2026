@@ -1,0 +1,35 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "students": {
+          "$id": {
+            ".validate": "newData.hasChildren(['name', 'email', 'department', 'note', 'createdAt'])",
+            "name": {
+              ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 80"
+            },
+            "email": {
+              ".validate": "newData.isString() && newData.val().length > 3 && newData.val().length <= 120"
+            },
+            "department": {
+              ".validate": "newData.isString() && (newData.val() === 'Information Technology' || newData.val() === 'Computer Engineering' || newData.val() === 'Electronics' || newData.val() === 'Mechanical' || newData.val() === 'Other')"
+            },
+            "note": {
+              ".validate": "newData.isString() && newData.val().length <= 300"
+            },
+            "createdAt": {
+              ".validate": "newData.isNumber() && newData.val() <= now"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        }
+      }
+    }
+  }
+}
